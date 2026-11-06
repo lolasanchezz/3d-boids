@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>3D Boids</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M15 8 1 13l3-5-3-5z' fill='%23558cf4'/%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <div id="notes" class="panel">
+      <div class="notes-head">
+        <span class="notes-title">Flock notes</span>
+        <span id="flock-count">0 flocks</span>
+      </div>
+      <div class="pickers">
+        <div class="picker" role="radiogroup" aria-label="Scale">
+          <label class="seg"><input type="radio" name="scale" value="pentatonic" />Pentatonic</label>
+          <label class="seg"><input type="radio" name="scale" value="blues" />Blues</label>
+        </div>
+        <div class="picker" role="radiogroup" aria-label="Voice">
+          <label class="seg"><input type="radio" name="voice" value="synth" checked />Synth</label>
+          <label class="seg" title="mihiScale.m4a, repitched to each note"><input type="radio" name="voice" value="mihi" />Mihi</label>
+        </div>
+      </div>
+      <label class="shift" title="Double-click to reset">
+        <span>Shift</span>
+        <input id="shift" type="range" min="-12" max="12" step="1" value="0" />
+        <output id="shift-val">0</output>
+      </label>
+      <div id="note-chips" aria-label="Scale notes, low to high"></div>
+      <div class="notes-sub"><span id="scale-desc"></span> · bigger flock → lower note</div>
+      <div id="sound-hint">click anywhere to start the sound</div>
+    </div>
+
+    <div id="corner">
+      <span id="hint">drag to orbit · scroll to zoom</span>
+      <button id="menu-toggle" type="button" aria-pressed="false" title="Hide menu (H)">Hide menu</button>
+    </div>
+
+    <div id="controls">
+      <div class="group" aria-label="Flocking rules">
+      <button id="reset" type="button">Reset</button>
+      <label class="slider">
+        <span>Coherence <output id="coherence-val"></output></span>
+        <input id="coherence" type="range" min="0" max="0.01" step="0.001" />
+      </label>
+      <label class="slider">
+        <span>Separation <output id="separation-val"></output></span>
+        <input id="separation" type="range" min="0" max="0.1" step="0.01" />
+      </label>
+      <label class="slider">
+        <span>Alignment <output id="alignment-val"></output></span>
+        <input id="alignment" type="range" min="0" max="0.1" step="0.01" />
+      </label>
+      <label class="slider">
+        <span>Visual range <output id="visual-range-val"></output></span>
+        <input id="visual-range" type="range" min="0" max="200" step="5" />
+      </label>
+      <label class="toggle"><input id="trace" type="checkbox" />Trace paths</label>
+      </div>
+
+      <div class="group" aria-label="Options">
+      <label class="slider">
+        <span>Boids <output id="count-val"></output></span>
+        <input id="count" type="range" min="50" max="1000" step="10" />
+      </label>
+      <label class="toggle"><input id="sound" type="checkbox" checked />Sound</label>
+      <label class="toggle"><input id="momentum" type="checkbox" checked />Momentum</label>
+      <label class="toggle"><input id="swallows" type="checkbox" checked />Swallows</label>
+      <label class="toggle"><input id="light" type="checkbox" />Light</label>
+      <label class="toggle"><input id="rotate" type="checkbox" checked />Auto-rotate</label>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

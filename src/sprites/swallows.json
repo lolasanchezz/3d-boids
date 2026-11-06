@@ -1,0 +1,593 @@
+{
+  "source": "src/boids.jpg",
+  "cell": 64,
+  "cols": 12,
+  "rows": 6,
+  "sprites": [
+    {
+      "index": 0,
+      "tile": [
+        0,
+        1
+      ],
+      "view": "plan",
+      "heading": 10
+    },
+    {
+      "index": 1,
+      "tile": [
+        0,
+        4
+      ],
+      "view": "front"
+    },
+    {
+      "index": 2,
+      "tile": [
+        0,
+        6
+      ],
+      "view": "plan",
+      "heading": 90
+    },
+    {
+      "index": 3,
+      "tile": [
+        0,
+        7
+      ],
+      "view": "plan",
+      "heading": 85
+    },
+    {
+      "index": 4,
+      "tile": [
+        0,
+        8
+      ],
+      "view": "plan",
+      "heading": 85
+    },
+    {
+      "index": 5,
+      "tile": [
+        0,
+        10
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 6,
+      "tile": [
+        0,
+        11
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 7,
+      "tile": [
+        1,
+        0
+      ],
+      "view": "plan",
+      "heading": 320
+    },
+    {
+      "index": 8,
+      "tile": [
+        1,
+        1
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 9,
+      "tile": [
+        1,
+        4
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 10,
+      "tile": [
+        1,
+        5
+      ],
+      "view": "plan",
+      "heading": 70
+    },
+    {
+      "index": 11,
+      "tile": [
+        1,
+        9
+      ],
+      "view": "plan",
+      "heading": 20
+    },
+    {
+      "index": 12,
+      "tile": [
+        1,
+        10
+      ],
+      "view": "plan",
+      "heading": 10
+    },
+    {
+      "index": 13,
+      "tile": [
+        2,
+        0
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 14,
+      "tile": [
+        2,
+        1
+      ],
+      "view": "plan",
+      "heading": 15
+    },
+    {
+      "index": 15,
+      "tile": [
+        2,
+        3
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 16,
+      "tile": [
+        2,
+        4
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 17,
+      "tile": [
+        2,
+        7
+      ],
+      "view": "plan",
+      "heading": 60
+    },
+    {
+      "index": 18,
+      "tile": [
+        2,
+        8
+      ],
+      "view": "plan",
+      "heading": 45
+    },
+    {
+      "index": 19,
+      "tile": [
+        2,
+        9
+      ],
+      "view": "front"
+    },
+    {
+      "index": 20,
+      "tile": [
+        2,
+        10
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 21,
+      "tile": [
+        3,
+        3
+      ],
+      "view": "plan",
+      "heading": 340
+    },
+    {
+      "index": 22,
+      "tile": [
+        3,
+        4
+      ],
+      "view": "plan",
+      "heading": 15
+    },
+    {
+      "index": 23,
+      "tile": [
+        3,
+        5
+      ],
+      "view": "plan",
+      "heading": 15
+    },
+    {
+      "index": 24,
+      "tile": [
+        3,
+        8
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 25,
+      "tile": [
+        3,
+        10
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 26,
+      "tile": [
+        4,
+        1
+      ],
+      "view": "plan",
+      "heading": 5
+    },
+    {
+      "index": 27,
+      "tile": [
+        4,
+        5
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 28,
+      "tile": [
+        4,
+        6
+      ],
+      "view": "plan",
+      "heading": 25
+    },
+    {
+      "index": 29,
+      "tile": [
+        4,
+        7
+      ],
+      "view": "plan",
+      "heading": 30
+    },
+    {
+      "index": 30,
+      "tile": [
+        4,
+        8
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 31,
+      "tile": [
+        4,
+        9
+      ],
+      "view": "plan",
+      "heading": 15
+    },
+    {
+      "index": 32,
+      "tile": [
+        5,
+        0
+      ],
+      "view": "plan",
+      "heading": 90
+    },
+    {
+      "index": 33,
+      "tile": [
+        5,
+        2
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 34,
+      "tile": [
+        5,
+        6
+      ],
+      "view": "plan",
+      "heading": 350
+    },
+    {
+      "index": 35,
+      "tile": [
+        5,
+        8
+      ],
+      "view": "front"
+    },
+    {
+      "index": 36,
+      "tile": [
+        5,
+        9
+      ],
+      "view": "plan",
+      "heading": 10
+    },
+    {
+      "index": 37,
+      "tile": [
+        5,
+        10
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 38,
+      "tile": [
+        5,
+        11
+      ],
+      "view": "plan",
+      "heading": 345
+    },
+    {
+      "index": 39,
+      "tile": [
+        6,
+        2
+      ],
+      "view": "front"
+    },
+    {
+      "index": 40,
+      "tile": [
+        6,
+        8
+      ],
+      "view": "plan",
+      "heading": 10
+    },
+    {
+      "index": 41,
+      "tile": [
+        6,
+        10
+      ],
+      "view": "plan",
+      "heading": 300
+    },
+    {
+      "index": 42,
+      "tile": [
+        6,
+        11
+      ],
+      "view": "plan",
+      "heading": 300
+    },
+    {
+      "index": 43,
+      "tile": [
+        7,
+        0
+      ],
+      "view": "plan",
+      "heading": 75
+    },
+    {
+      "index": 44,
+      "tile": [
+        7,
+        2
+      ],
+      "view": "plan",
+      "heading": 55
+    },
+    {
+      "index": 45,
+      "tile": [
+        7,
+        3
+      ],
+      "view": "plan",
+      "heading": 25
+    },
+    {
+      "index": 46,
+      "tile": [
+        7,
+        5
+      ],
+      "view": "front"
+    },
+    {
+      "index": 47,
+      "tile": [
+        7,
+        7
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 48,
+      "tile": [
+        7,
+        8
+      ],
+      "view": "plan",
+      "heading": 335
+    },
+    {
+      "index": 49,
+      "tile": [
+        7,
+        9
+      ],
+      "view": "plan",
+      "heading": 305
+    },
+    {
+      "index": 50,
+      "tile": [
+        8,
+        6
+      ],
+      "view": "plan",
+      "heading": 350
+    },
+    {
+      "index": 51,
+      "tile": [
+        9,
+        1
+      ],
+      "view": "plan",
+      "heading": 40
+    },
+    {
+      "index": 52,
+      "tile": [
+        9,
+        2
+      ],
+      "view": "plan",
+      "heading": 45
+    },
+    {
+      "index": 53,
+      "tile": [
+        9,
+        3
+      ],
+      "view": "front"
+    },
+    {
+      "index": 54,
+      "tile": [
+        9,
+        4
+      ],
+      "view": "front"
+    },
+    {
+      "index": 55,
+      "tile": [
+        9,
+        8
+      ],
+      "view": "plan",
+      "heading": 315
+    },
+    {
+      "index": 56,
+      "tile": [
+        9,
+        10
+      ],
+      "view": "plan",
+      "heading": 280
+    },
+    {
+      "index": 57,
+      "tile": [
+        10,
+        1
+      ],
+      "view": "plan",
+      "heading": 10
+    },
+    {
+      "index": 58,
+      "tile": [
+        10,
+        4
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 59,
+      "tile": [
+        10,
+        6
+      ],
+      "view": "plan",
+      "heading": 275
+    },
+    {
+      "index": 60,
+      "tile": [
+        10,
+        7
+      ],
+      "view": "plan",
+      "heading": 275
+    },
+    {
+      "index": 61,
+      "tile": [
+        10,
+        8
+      ],
+      "view": "plan",
+      "heading": 305
+    },
+    {
+      "index": 62,
+      "tile": [
+        11,
+        0
+      ],
+      "view": "plan",
+      "heading": 0
+    },
+    {
+      "index": 63,
+      "tile": [
+        11,
+        1
+      ],
+      "view": "front"
+    },
+    {
+      "index": 64,
+      "tile": [
+        11,
+        3
+      ],
+      "view": "front"
+    },
+    {
+      "index": 65,
+      "tile": [
+        11,
+        4
+      ],
+      "view": "plan",
+      "heading": 15
+    }
+  ]
+}

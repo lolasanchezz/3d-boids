@@ -33,14 +33,14 @@ const vertexShader = /* glsl */ `
   attribute float aAngle;
   attribute float aHeading;
   attribute float aSpan;
-  attribute float aFlash;
+  attribute vec3 aColor;
   uniform float uSize;
   uniform float uScale;
   varying float vSprite;
   varying float vAngle;
   varying float vHeading;
   varying float vSpan;
-  varying float vFlash;
+  varying vec3 vColor;
   #include <fog_pars_vertex>
 
   void main() {
@@ -51,7 +51,7 @@ const vertexShader = /* glsl */ `
     vAngle = aAngle;
     vHeading = aHeading;
     vSpan = aSpan;
-    vFlash = aFlash;
+    vColor = aColor;
     #include <fog_vertex>
   }
 `;
@@ -59,13 +59,12 @@ const vertexShader = /* glsl */ `
 const fragmentShader = /* glsl */ `
   uniform sampler2D uMap;
   uniform vec2 uGrid; // atlas columns, rows
-  uniform vec3 uColor;
-  uniform vec3 uFlashColor;
+  uniform float uHardEdges; // 1 in pixel mode: solid pixels, no soft edges
   varying float vSprite;
   varying float vAngle;   // screen bearing the boid is moving in (clockwise from up)
   varying float vHeading; // bearing the bird faces in its sprite
   varying float vSpan;    // visible wingspan, 0..1
-  varying float vFlash;
+  varying vec3 vColor;    // linear RGB, chosen per boid in main.js
   #include <fog_pars_fragment>
 
   void main() {
@@ -88,18 +87,19 @@ const fragmentShader = /* glsl */ `
 
     vec2 cell = vec2(mod(vSprite, uGrid.x), floor(vSprite / uGrid.x));
     float alpha = texture2D(uMap, (cell + q) / uGrid).a;
+    if (uHardEdges > 0.5) alpha = step(0.5, alpha);
     if (alpha < 0.03) discard;
 
-    // The birds are silhouettes, so draw them in the boid color using only
+    // The birds are silhouettes, so draw them in the boid's color using only
     // the sprite's alpha.
-    gl_FragColor = vec4(mix(uColor, uFlashColor, vFlash), alpha);
+    gl_FragColor = vec4(vColor, alpha);
     #include <colorspace_fragment>
     #include <fog_fragment>
   }
 `;
 
 export class SwallowSprites {
-  constructor(maxBoids, { color, flashColor, size }) {
+  constructor(maxBoids, { size }) {
     this.max = maxBoids;
     this.plan = atlas.sprites.filter((s) => s.view === 'plan');
     this.front = atlas.sprites.filter((s) => s.view === 'front');
@@ -123,7 +123,7 @@ export class SwallowSprites {
     this.angles = new Float32Array(maxBoids);
     this.headings = new Float32Array(maxBoids);
     this.spans = new Float32Array(maxBoids).fill(1);
-    this.flashes = new Float32Array(maxBoids);
+    this.colors = new Float32Array(maxBoids * 3);
 
     const geometry = new THREE.BufferGeometry();
     const dynamic = (array, itemSize) =>
@@ -133,7 +133,7 @@ export class SwallowSprites {
     geometry.setAttribute('aAngle', dynamic(this.angles, 1));
     geometry.setAttribute('aHeading', dynamic(this.headings, 1));
     geometry.setAttribute('aSpan', dynamic(this.spans, 1));
-    geometry.setAttribute('aFlash', dynamic(this.flashes, 1));
+    geometry.setAttribute('aColor', dynamic(this.colors, 3));
     this.geometry = geometry;
 
     const texture = new THREE.TextureLoader().load(atlasUrl);
@@ -149,8 +149,7 @@ export class SwallowSprites {
         {
           uMap: { value: null },
           uGrid: { value: new THREE.Vector2(atlas.cols, atlas.rows) },
-          uColor: { value: new THREE.Color(color) },
-          uFlashColor: { value: new THREE.Color(flashColor) },
+          uHardEdges: { value: 0 },
           uSize: { value: size },
           uScale: { value: 1 },
         },
@@ -165,9 +164,13 @@ export class SwallowSprites {
     this.points.frustumCulled = false; // points move every frame
   }
 
-  setColors(bird, flash) {
-    this.material.uniforms.uColor.value.copy(bird);
-    this.material.uniforms.uFlashColor.value.copy(flash);
+  // World units across one sprite.
+  setSize(size) {
+    this.material.uniforms.uSize.value = size;
+  }
+
+  setHardEdges(on) {
+    this.material.uniforms.uHardEdges.value = on ? 1 : 0;
   }
 
   #newPose(i) {
@@ -177,15 +180,16 @@ export class SwallowSprites {
   }
 
   // Pixels per world unit at distance 1, so sprites shrink with distance like
-  // the 3D cones do. Call on resize.
-  setViewport(renderer, camera) {
-    const height = renderer.getDrawingBufferSize(new THREE.Vector2()).y;
+  // the 3D cones do. `height` is the height in pixels of whatever is being
+  // rendered into (the canvas, or the small pixel-mode target). Call on resize.
+  setViewport(height, camera) {
     this.material.uniforms.uScale.value =
       height / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2));
   }
 
-  // boids are in simulation coordinates; `offset` is the world group's position.
-  update(boids, camera, offset, flash, dt) {
+  // boids are in simulation coordinates; `offset` is the world group's position;
+  // `colors` holds each boid's linear RGB.
+  update(boids, camera, offset, colors, dt) {
     const e = camera.matrixWorldInverse.elements;
     const n = boids.length;
 
@@ -194,7 +198,9 @@ export class SwallowSprites {
       this.positions[i * 3] = b.x;
       this.positions[i * 3 + 1] = b.y;
       this.positions[i * 3 + 2] = b.z;
-      this.flashes[i] = flash[i];
+      this.colors[i * 3] = colors[i * 3];
+      this.colors[i * 3 + 1] = colors[i * 3 + 1];
+      this.colors[i * 3 + 2] = colors[i * 3 + 2];
 
       // Wing elevation swings between +WING_UP and -WING_DOWN, scaled by how
       // hard the boid is flapping (0 while it glides with wings spread).
@@ -243,7 +249,7 @@ export class SwallowSprites {
       }
     }
 
-    for (const name of ['position', 'aSprite', 'aAngle', 'aHeading', 'aSpan', 'aFlash']) {
+    for (const name of ['position', 'aSprite', 'aAngle', 'aHeading', 'aSpan', 'aColor']) {
       const attr = this.geometry.getAttribute(name);
       attr.clearUpdateRanges();
       attr.addUpdateRange(0, n * attr.itemSize);

@@ -26,6 +26,14 @@
           <label class="seg"><input type="radio" name="voice" value="synth" checked />Synth</label>
           <label class="seg" title="mihiScale.m4a, repitched to each note"><input type="radio" name="voice" value="mihi" />Mihi</label>
         </div>
+        <div class="picker">
+          <label class="seg" title="Color each flock by the note it sings, along the gradient on the right"><input type="checkbox" id="note-colors" checked />Note colors</label>
+        </div>
+        <div class="gradient" title="Low notes → high notes">
+          <input type="color" id="color-low" aria-label="Color for low notes" />
+          <span class="gradient-bar" aria-hidden="true"></span>
+          <input type="color" id="color-high" aria-label="Color for high notes" />
+        </div>
       </div>
       <label class="shift" title="Double-click to reset">
         <span>Shift</span>
@@ -38,7 +46,7 @@
     </div>
 
     <div id="corner">
-      <span id="hint">drag to orbit · scroll to zoom</span>
+      <span id="hint">drag to orbit · scroll to zoom · drag a dot to resize the box</span>
       <button id="menu-toggle" type="button" aria-pressed="false" title="Hide menu (H)">Hide menu</button>
     </div>
 
@@ -73,6 +81,7 @@
       <label class="toggle"><input id="momentum" type="checkbox" checked />Momentum</label>
       <label class="toggle"><input id="swallows" type="checkbox" checked />Swallows</label>
       <label class="toggle"><input id="light" type="checkbox" />Light</label>
+      <label class="toggle"><input id="pixels" type="checkbox" />Pixels</label>
       <label class="toggle"><input id="rotate" type="checkbox" checked />Auto-rotate</label>
       </div>
     </div>

@@ -242,6 +242,55 @@ body {
   border-color: rgba(85, 140, 244, 0.8);
   color: var(--chip-held);
 }
+/* The two note colors, with a preview of the gradient between them */
+.gradient {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity 0.25s;
+}
+.gradient input[type='color'] {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+}
+.gradient input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 2px;
+}
+.gradient input[type='color']::-webkit-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+.gradient input[type='color']::-moz-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+.gradient-bar {
+  width: 44px;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to right, var(--grad-low), var(--grad-high));
+  background: linear-gradient(to right in oklab, var(--grad-low), var(--grad-high));
+}
+#notes:not(.notes-colored) .gradient {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* With note colors on, the chips double as the color legend. */
+.notes-colored .chip {
+  border-color: var(--note);
+  transition: border-color 0.3s, color 0.3s, background-color 0.3s;
+}
+.notes-colored .chip.held {
+  background: var(--note);
+  color: var(--bg);
+  font-weight: 700;
+}
 .notes-sub {
   margin-top: 8px;
   opacity: 0.7;
@@ -267,6 +316,10 @@ body {
   font-size: 12px;
   opacity: 0.45;
   pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+#hint.live {
+  opacity: 0.9; /* showing the box size while it's being dragged */
 }
 #menu-toggle {
   font: inherit;
